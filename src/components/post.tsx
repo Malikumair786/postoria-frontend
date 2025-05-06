@@ -5,6 +5,7 @@ import { ThumbsUp, MessageCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import CommentList from "./commentList";
+import { Card } from "./ui/card";
 
 type PostProps = {
   id: number;
@@ -100,7 +101,7 @@ export default function Post({
   };
 
   return (
-    <div className="border border-gray-200 rounded-2xl shadow-sm p-4 max-w-xl mx-auto my-6">
+    <Card className="rounded-xl shadow-md p-4 max-w-xl mx-auto mb-6">
       <div className="flex items-center space-x-3 mb-3">
         <Link href={`/profile/${authorId}`}>
           {/* Display Avatar or Initials */}
@@ -176,6 +177,6 @@ export default function Post({
           addComment={addComment}
         />
       )}
-    </div>
+    </Card>
   );
 }

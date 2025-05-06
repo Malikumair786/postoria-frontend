@@ -68,7 +68,7 @@ const CreatePost = () => {
   };
 
   return (
-    <Card className="rounded-xl shadow-md p-4 sm:p-6">
+    <Card className="rounded-xl shadow-md p-4 max-w-xl mx-auto mb-6">
       <div className="flex items-start gap-3 mb-4">
         <Image src={imageUrl} alt="Avatar" width={40} height={40} className="w-10 h-10 rounded-full object-cover" />
         <Textarea placeholder="What's on your mind?" className="w-full resize-none text-sm" rows={3} value={content} onChange={(e: any) => setContent(e.target.value)} />
