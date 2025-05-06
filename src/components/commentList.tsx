@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ThumbsUp, SendHorizonal } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { Card } from "./ui/card";
 
 type Comment = {
   id: number;
@@ -41,14 +42,14 @@ const CommentList = ({ comments, toggleCommentLike, addComment }: CommentListPro
         />
         <button
           onClick={handleAddComment}
-          className="text-blue-600 hover:text-blue-800"
+          className="text-primary"
         >
           <SendHorizonal size={18} />
         </button>
       </div>
 
       {comments.map((comment) => (
-        <div key={comment.id} className="bg-gray-100 rounded-xl px-3 py-2 flex items-start gap-2">
+        <Card key={comment.id} className="rounded-xl px-3 py-2 flex items-start gap-2">
           <Link href={`/profile/${comment.userId}`}>
             <Image
               src={comment.userAvatar}
@@ -62,23 +63,23 @@ const CommentList = ({ comments, toggleCommentLike, addComment }: CommentListPro
           <div className="flex-1">
             <Link
               href={`/profile/${comment.userId}`}
-              className="text-sm font-semibold text-gray-800 hover:underline"
+              className="text-sm font-semibold hover:underline"
             >
               {comment.userName}
             </Link>
-            <p className="text-sm text-gray-700">{comment.text}</p>
+            <p className="text-sm">{comment.text}</p>
           </div>
 
           <button
             onClick={() => toggleCommentLike(comment.id)}
-            className={`text-xs text-gray-500 hover:text-blue-600 self-center ${
-              comment.likedByUser ? "text-blue-600" : ""
+            className={`text-xs hover:text-primary self-center ${
+              comment.likedByUser ? "text-primary" : ""
             }`}
           >
             <ThumbsUp size={14} className="inline-block mr-1" />
             {comment.likes}
           </button>
-        </div>
+        </Card>
       ))}
     </div>
   );

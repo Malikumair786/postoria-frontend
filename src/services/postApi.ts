@@ -14,8 +14,8 @@ interface PostRequest {
 
 interface UpdatePostRequest {
   postId: string;
-  content?: string;
-  images?: string[];
+  text?: string;
+  imageUrls?: string[];
 }
 
 export const postApi = apiSlice.injectEndpoints({
@@ -31,7 +31,7 @@ export const postApi = apiSlice.injectEndpoints({
 
     getPosts: builder.query<ApiResponse, void>({
       query: () => ({
-        url: "posts",
+        url: "posts/feed",
         method: "GET",
       }),
       providesTags: ["Posts"],
@@ -44,10 +44,25 @@ export const postApi = apiSlice.injectEndpoints({
       }),
     }),
 
+    getMyPosts: builder.query<ApiResponse, void>({
+      query: () => ({
+        url: "posts/my-feeds", // your backend should handle this route to return posts for the logged-in user
+        method: "GET",
+      }),
+      providesTags: ["Posts"],
+    }),
+    hidePost: builder.mutation<ApiResponse, string>({
+      query: (postId) => ({
+        url: `posts/hide/${postId}`,
+        method: "PUT"
+      }),
+      invalidatesTags: ["Posts"],
+    }),
+
     updatePost: builder.mutation<ApiResponse, UpdatePostRequest>({
       query: ({ postId, ...updateData }) => ({
         url: `posts/${postId}`,
-        method: "PATCH",
+        method: "PUT",
         body: updateData,
       }),
       invalidatesTags: ["Posts"],
@@ -68,5 +83,7 @@ export const {
   useGetPostsQuery,
   useGetPostByIdQuery,
   useUpdatePostMutation,
+  useGetMyPostsQuery,
   useDeletePostMutation,
+  useHidePostMutation
 } = postApi;

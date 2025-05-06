@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useMeQuery } from "@/services/userApi";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
-import { LogOut } from "lucide-react";
+import { LogOut, SquareUserRound, User } from "lucide-react";
 
 import Loader from "./loader";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuSeparator, DropdownMenuItem } from "@/components/ui/dropdown-menu";
@@ -18,7 +18,7 @@ const AvatarMenu = () => {
   if (isLoading) return <Loader />;
 
   const username = (data as { username?: string })?.username || "Your Name";
-  const imageUrl = (data as { imageUrl?: string })?.imageUrl || "/avatars/placeholder.jpg";
+  const imageUrl = (data as { imageUrl?: string })?.imageUrl || "/avatars/placeholder.png";
   const nameParts = username.split(" ");
   const firstInitial = nameParts[0]?.charAt(0) || "";
   const lastInitial = nameParts[1]?.charAt(0) || "";
@@ -52,8 +52,16 @@ const AvatarMenu = () => {
       <DropdownMenuContent align="end" className="w-48 rounded-lg shadow-lg border border-gray-200 py-2">
         <div className="px-4 py-2 text-sm font-bold text-center">{username}</div>
         <DropdownMenuSeparator />
+        <DropdownMenuItem
+          className="text-md px-4 py-2"
+          onClick={() => router.push("/profile")}
+        >
+          <User className="mr-2 h-6 w-6 text-primary" size={32} />
+            Profile
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleSignOut} className="text-md cursor-pointer flex items-center px-4 py-2">
-          <LogOut className="mr-2 h-6 w-6 text-red-500" />
+          <LogOut className="mr-2 h-6 w-6 text-red-500" size={32} />
           Logout
         </DropdownMenuItem>
       </DropdownMenuContent>

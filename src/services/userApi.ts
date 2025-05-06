@@ -29,6 +29,7 @@ export const authApi = apiSlice.injectEndpoints({
         url: "users/me",
         method: "GET",
       }),
+      providesTags: ['User'],
     }),
     checkRegistrationStatus: builder.query<any, void>({
       query: () => ({

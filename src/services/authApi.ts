@@ -15,6 +15,7 @@ export const authApi = apiSlice.injectEndpoints({
         method: "POST",
         body: credentials,
       }),
+      invalidatesTags: ['User', "Posts"],
     }),
   }),
 });
