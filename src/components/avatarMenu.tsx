@@ -7,14 +7,8 @@ import Cookies from "js-cookie";
 import { LogOut } from "lucide-react";
 
 import Loader from "./loader";
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuSeparator,
-  DropdownMenuItem,
-} from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuSeparator, DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const AvatarMenu = () => {
   const { data, error, isLoading } = useMeQuery();
@@ -24,6 +18,7 @@ const AvatarMenu = () => {
   if (isLoading) return <Loader />;
 
   const username = (data as { username?: string })?.username || "Your Name";
+  const imageUrl = (data as { imageUrl?: string })?.imageUrl || "/avatars/placeholder.jpg";
   const nameParts = username.split(" ");
   const firstInitial = nameParts[0]?.charAt(0) || "";
   const lastInitial = nameParts[1]?.charAt(0) || "";
@@ -46,25 +41,19 @@ const AvatarMenu = () => {
   return (
     <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
       <DropdownMenuTrigger asChild>
-        <button className="flex items-center rounded-full focus:outline-none focus:ring-3 focus:ring-primary transition">
+        <button className="flex items-center rounded-full focus:outline-none focus:ring-primary transition">
           <Avatar className="cursor-pointer bg-primary hover:opacity-200">
-            <AvatarFallback className="text-sm font-medium text-primary">
-              {(firstInitial + lastInitial).toUpperCase()}
-            </AvatarFallback>
+            {imageUrl && <AvatarImage src={imageUrl} alt={username} />}
+            <AvatarFallback className="text-sm font-medium text-primary">{(firstInitial + lastInitial).toUpperCase()}</AvatarFallback>
           </Avatar>
         </button>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent align="end" className="w-48 rounded-lg shadow-lg border border-gray-200 bg-white py-2">
-        <div className="px-4 py-2 text-sm font-semibold text-gray-800 text-center">
-          {username}
-        </div>
+      <DropdownMenuContent align="end" className="w-48 rounded-lg shadow-lg border border-gray-200 py-2">
+        <div className="px-4 py-2 text-sm font-bold text-center">{username}</div>
         <DropdownMenuSeparator />
-        <DropdownMenuItem
-          onClick={handleSignOut}
-          className="text-sm text-gray-700 hover:bg-gray-100 cursor-pointer flex items-center px-4 py-2"
-        >
-          <LogOut className="mr-2 h-4 w-4 text-red-500" />
+        <DropdownMenuItem onClick={handleSignOut} className="text-md cursor-pointer flex items-center px-4 py-2">
+          <LogOut className="mr-2 h-6 w-6 text-red-500" />
           Logout
         </DropdownMenuItem>
       </DropdownMenuContent>

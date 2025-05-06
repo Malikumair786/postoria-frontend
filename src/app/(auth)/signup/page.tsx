@@ -34,7 +34,7 @@ const Signup = () => {
     profilePicture: "",
   });
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imagePublicId, setImagePublicId] = useState<string | null>(null);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const [errorMessages, setErrorMessages] = useState<string[]>([]);
@@ -71,7 +71,7 @@ const Signup = () => {
       "upload_preset",
       process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET as string
     );
-
+  
     const response = await fetch(
       `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
       {
@@ -80,10 +80,11 @@ const Signup = () => {
       }
     );
 
-    if (!response.ok) throw new Error("Image upload failed.");
+    if (!response.ok) throw new Error("Image upload failed.");    
     const data = await response.json();
-    return data.public_id;
+    return data.secure_url;
   };
+  
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -115,12 +116,12 @@ const Signup = () => {
 
     try {
       if (imageFile) {
-        const publicId = await uploadImageToCloudinary(imageFile);
-        setImagePublicId(publicId);
+        const imageUrl = await uploadImageToCloudinary(imageFile);
+        setImageUrl(imageUrl);
 
         await signup({
           ...userData,
-          profilePicture: publicId,
+          profilePicture: imageUrl,
         }).unwrap();
         router.replace(`/`);
       }
@@ -135,15 +136,15 @@ const Signup = () => {
     <div className="flex justify-center items-center min-h-screen">
       <Card className="w-full mx-5 sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl">
         <CardHeader className="flex flex-col items-center justify-center text-center">
-          <CardTitle>Postoria</CardTitle>
+          <CardTitle className="font-bold text-4xl">Postoria</CardTitle>
         </CardHeader>
         <CardContent className="px-3">
           <form onSubmit={handleRegisterUser} className="grid gap-4">
             <div className="flex items-center justify-center">
-              <label htmlFor="photo-upload" className="cursor-pointer">
+              <Label htmlFor="photo-upload" className="cursor-pointer">
                 <div
                   className={`relative w-24 h-24 overflow-hidden rounded-full border-2 border-gray-200 flex justify-center items-center ${
-                    imagePreview ? "bg-transparent" : "bg-gray-100"
+                    imagePreview ? "bg-transparent" : "bg-secondary"
                   }`}
                   style={{
                     backgroundImage: imagePreview
@@ -153,19 +154,19 @@ const Signup = () => {
                     backgroundPosition: "center",
                   }}
                 >
-                  <input
+                  <Input
                     id="photo-upload"
                     type="file"
                     onChange={handleImageChange}
                     className="absolute top-0 left-0 opacity-0 w-full h-full"
                   />
                   {!imagePreview && (
-                    <div className="absolute top-0 left-0 flex justify-center items-center w-full h-full opacity-50 hover:opacity-100 transition-opacity duration-300 bg-gray-100">
+                    <div className="absolute top-0 left-0 flex justify-center items-center w-full h-full opacity-50 hover:opacity-100 transition-opacity duration-300">
                       <span className="text-sm text-primary">upload image</span>
                     </div>
                   )}
                 </div>
-              </label>
+              </Label>
             </div>
 
             <div className="grid gap-2">

@@ -45,13 +45,13 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="light">
-                  <Sun className={`${currentTheme === "light" ? "text-primary" : ""}`} />
+                  <Sun className={`${currentTheme === "light" ? "text-primary" : "text-foreground"}`} />
                 </SelectItem>
                 <SelectItem value="dark">
-                  <Moon className={`${currentTheme === "dark" ? "text-primary" : ""}`} />
+                  <Moon className={`${currentTheme === "dark" ? "text-primary" : "text-foreground"}`} />
                 </SelectItem>
                 <SelectItem value="system">
-                  <SunMoon className={`${currentTheme === "system" ? "text-primary" : ""}`} />
+                  <SunMoon className={`${currentTheme === "system" ? "text-primary" : "text-foreground"}`} />
                 </SelectItem>
               </SelectContent>
             </Select>

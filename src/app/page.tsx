@@ -36,7 +36,7 @@ const Login = () => {
       }
 
       Cookies.set("access_token", response.data.access_token);
-      router.replace("/dashboard");
+      router.replace("/feed");
     } catch (err: any) {
       toast("Invalid credentials", {
         description: "Incorrect username or password",
